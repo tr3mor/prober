@@ -3,7 +3,7 @@ package config
 import (
 	"go.uber.org/zap"
 	"gopkg.in/yaml.v2"
-	"io/ioutil"
+	"os"
 	"time"
 )
 
@@ -21,7 +21,7 @@ type Target struct {
 
 func ParseConfig(path string, log *zap.SugaredLogger) *Config {
 	var cfg Config
-	file, err := ioutil.ReadFile(path)
+	file, err := os.ReadFile(path)
 	if err != nil {
 		log.Fatalf("Failed to read config file: %s", err)
 	}

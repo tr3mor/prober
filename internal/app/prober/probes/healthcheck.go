@@ -21,20 +21,20 @@ func NewHealthcheck(name string, l *zap.SugaredLogger, url string, c *http.Clien
 
 func (h *Healthcheck) Name() string {
 	return h.name
-
 }
 
 func (h *Healthcheck) Execute() {
-	h.l.With("probe", h.name)
+	logger := h.l.With("probe", h.name)
+	logger.Infof("Probe started for url %s", h.url)
 	req, err := http.NewRequest(http.MethodGet, h.url, nil)
 	if err != nil {
-		h.l.Errorf("Failed to create http request: %s", err)
+		logger.Errorf("Failed to create http request: %s", err)
 		return
 	}
 	start := time.Now()
 	resp, err := h.client.Do(req)
 	if err != nil {
-		h.l.Errorf("Failed to execute http request: %s", err)
+		logger.Errorf("Failed to execute http request: %s", err)
 		return
 	}
 	var status float64
@@ -45,4 +45,5 @@ func (h *Healthcheck) Execute() {
 	}
 	duration := time.Since(start).Seconds()
 	h.M.CollectMetrics(status, duration)
+	logger.Info("Probe finished")
 }
