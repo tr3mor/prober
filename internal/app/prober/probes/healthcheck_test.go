@@ -21,7 +21,12 @@ type HealthcheckTestSuite struct {
 
 func (s *HealthcheckTestSuite) SetupTest() {
 	logger, _ := zap.NewProduction()
-	defer logger.Sync()
+	defer func(logger *zap.Logger) {
+		err := logger.Sync()
+		if err != nil {
+			return
+		}
+	}(logger)
 	s.logger = logger.Sugar()
 	s.c = &http.Client{Timeout: 10 * time.Second}
 }
