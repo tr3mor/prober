@@ -17,7 +17,12 @@ type ConfigTestSuite struct {
 
 func (s *ConfigTestSuite) SetupTest() {
 	logger, _ := zap.NewProduction()
-	defer logger.Sync()
+	defer func(logger *zap.Logger) {
+		err := logger.Sync()
+		if err != nil {
+			return
+		}
+	}(logger)
 	s.logger = logger.Sugar()
 }
 

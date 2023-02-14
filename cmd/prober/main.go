@@ -13,9 +13,24 @@ import (
 	"prober/internal/app/prober/probes"
 )
 
+func k8sProbe(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	jsonData := []byte(`{"status":"OK"}`)
+	_, err := w.Write(jsonData)
+	if err != nil {
+		return
+	}
+}
+
 func main() {
 	logger, _ := zap.NewProduction()
-	defer logger.Sync()
+	defer func(logger *zap.Logger) {
+		err := logger.Sync()
+		if err != nil {
+			return
+		}
+	}(logger)
 	sugar := logger.Sugar()
 	var path string
 	flag.StringVar(&path, "config", "/etc/prober/config.yaml", "path to config")
@@ -23,15 +38,20 @@ func main() {
 	cfg := config.ParseConfig(path, sugar)
 	var p []probes.Probe
 	http.Handle("/metrics", promhttp.Handler())
+	http.HandleFunc("/health", k8sProbe)
+	http.HandleFunc("/ready", k8sProbe)
 	go func() {
-		http.ListenAndServe(fmt.Sprintf(":%d", cfg.PrometheusPort), nil)
+		err := http.ListenAndServe(fmt.Sprintf(":%d", cfg.PrometheusPort), nil)
+		if err != nil {
+			sugar.Errorf("Failed to start http server due to: %s", err)
+		}
 	}()
 
 	c := http.Client{Timeout: cfg.Timeout}
 	for _, target := range cfg.Targets {
 		p = append(p, probes.NewHealthcheck(target.Name, sugar, target.URL, &c))
 	}
-	prober := prober.NewProber(sugar, p, cfg.Period)
+	prob := prober.NewProber(sugar, p, cfg.Period)
 	ctx := context.Background()
-	prober.Start(ctx)
+	prob.Start(ctx)
 }
