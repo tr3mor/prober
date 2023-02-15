@@ -15,5 +15,3 @@ COPY --from=build /app/cmd/prober/prober .
 COPY --from=build /app/config/config.example.yaml /etc/prober/config.yaml
 EXPOSE 2112
 CMD ["./prober"]
-
-
