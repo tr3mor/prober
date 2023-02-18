@@ -1,0 +1,33 @@
+name: Golang PR checks
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.17
+
+    - name: Install golangci-lint
+      run: curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(go env GOPATH)/bin v1.42.0
+
+    - name: Run unit tests
+      run: go test -v ./...
+
+    - name: Run golangci-lint
+      run: golangci-lint run
+
+    - name: Build project
+      run: go build ./...
+
+    - name: Validate config.example.yaml
+      run: yamllint config.example.yaml
