@@ -1,0 +1,12 @@
+period: 1m
+timeout: 10s
+prometheus_port: 2112
+targets:
+  - name: wikipedia
+    url: https://wikipedia.com
+  - name: github
+    url: https://github.com
+  - name: reddit
+    url: https://reddit.com
+  - name: telegram
+    url: https://telegram.com
