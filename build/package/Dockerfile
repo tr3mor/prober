@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 # Could use golang/alpine image
 # FROM alpine:3.17 -- Decided golang instead because "RUN" commands create layers (larger size) and we use less this way
+# If using alpine --> Should use multi-stage build https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#use-multi-stage-builds
 FROM golang:bullseye
 
 # Set WORKDIR to prevent errors
