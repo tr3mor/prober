@@ -2,7 +2,7 @@
 # Could use golang/alpine image
 # FROM alpine:3.17 -- Decided golang instead because "RUN" commands create layers (larger size) and we use less this way
 # If using alpine --> Should use multi-stage build https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#use-multi-stage-builds
-FROM golang:bullseye
+FROM golang:1.20.1-alpine3.17
 
 # Set WORKDIR to prevent errors
 WORKDIR /go/delivery
@@ -18,7 +18,7 @@ CMD ["-config", "./config/config.example.yaml"]
 
 
 # TO BUILD IMAGE
-# docker build -t prober-docker . -f build/package/Dockerfile
+# docker build -t prober . -f build/package/Dockerfile
 
 # TO USE OTHER CONFIG FILES CAN BE MOUNTED PREVIOUSLY TO THE CONTAINER
 # docker run -v /path/to/config.yaml:/path/in/container/to/config.yaml docker-prober --config /path/in/container/to/config.yaml
