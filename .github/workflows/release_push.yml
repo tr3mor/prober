@@ -29,4 +29,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: stasky745/prober:latest,stasky745/prober:${GITHUB_REF#refs/*/}
+          tags: stasky745/prober:latest,stasky745/prober:${{ github.ref_name }}
