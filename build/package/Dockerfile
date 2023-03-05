@@ -18,5 +18,6 @@ WORKDIR /prober
 COPY --from=builder /go/delivery/config /go/delivery/prober ./
 CMD ["./prober", "-config", "./config.yaml"]
 
+
 # TO USE OTHER CONFIG FILES CAN BE MOUNTED PREVIOUSLY TO THE CONTAINER
 # docker run -v /path/to/config.yaml:/path/in/container/to/config.yaml stasky745/prober ./prober --config /path/in/container/to/config.yaml
