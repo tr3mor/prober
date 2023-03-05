@@ -1,3 +1,4 @@
+---
 period: 1m
 timeout: 10s
 prometheus_port: 2112
