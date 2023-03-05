@@ -1,3 +1,4 @@
+---
 period: 1m
 timeout: 10s
 prometheus_port: 2112
@@ -6,4 +7,3 @@ targets:
     url: https://yandex.ru
   - name: github
     url: https://github.com
-    
