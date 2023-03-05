@@ -31,3 +31,4 @@ jobs:
           context: .
           push: true
           tags: stasky745/prober:latest,stasky745/prober:${{ github.ref_name }}
+          file: build/package/Dockerfile
