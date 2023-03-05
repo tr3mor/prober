@@ -17,6 +17,7 @@ ENTRYPOINT ["./prober"]
 CMD ["-config", "./config/config.example.yaml"]
 
 
+
 # TO BUILD IMAGE
 # docker build -t prober . -f build/package/Dockerfile
 
