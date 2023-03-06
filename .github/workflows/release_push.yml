@@ -25,6 +25,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
+        name: Testing vars
+        run: |
+          echo "env.GITHUB_REF_NAME: $${{ env.GITHUB_REF_NAME }}"
+          echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
+          echo "github.ref_name: ${{ github.ref_name }}"
+      -
         name: Build and push
         uses: docker/build-push-action@v4
         with:
