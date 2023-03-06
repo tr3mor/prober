@@ -27,7 +27,7 @@ jobs:
       -
         name: Testing vars
         run: |
-          echo "env.GITHUB_REF_NAME: $${{ env.GITHUB_REF_NAME }}"
+          echo "env.GITHUB_REF_NAME: ${{ env.GITHUB_REF_NAME }}"
           echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
           echo "github.ref_name: ${{ github.ref_name }}"
       -
@@ -36,5 +36,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: stasky745/prober:latest,stasky745/prober:${{ github.ref_name }}
+          tags: "stasky745/prober:latest,stasky745/prober:$GITHUB_REF_NAME"
           file: build/package/Dockerfile
