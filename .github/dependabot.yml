@@ -1,0 +1,17 @@
+version: 2
+updates:
+  - package-ecosystem: gomod
+    open-pull-requests-limit: 10
+    directory: /
+    schedule:
+        time: "16:00"
+        interval: daily
+    allow:
+        - dependency-type: all
+    assignees:
+        - tr3mor
+    reviewers:
+        - tr3mor
+    labels:
+        - dependencies
+        - golang
