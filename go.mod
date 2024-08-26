@@ -3,7 +3,7 @@ module prober
 go 1.17
 
 require (
-	github.com/prometheus/client_golang v1.20.1
+	github.com/prometheus/client_golang v1.20.2
 	github.com/stretchr/testify v1.9.0
 	go.uber.org/zap v1.27.0
 	gopkg.in/yaml.v2 v2.4.0
